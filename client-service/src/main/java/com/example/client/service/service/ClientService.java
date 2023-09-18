@@ -11,4 +11,6 @@ public interface ClientService {
     ClientDto findById(Long id);
     ClientDto update(ClientDto clientDto);
 
+    boolean isExistClient(Long id);
+
 }

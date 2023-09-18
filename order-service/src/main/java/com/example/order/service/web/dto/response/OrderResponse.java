@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class OrderResponse {
 
     private Long id;
-    private String clientId;
+    private Long clientId;
     private String description;
     private OrderStatus orderStatus;
 

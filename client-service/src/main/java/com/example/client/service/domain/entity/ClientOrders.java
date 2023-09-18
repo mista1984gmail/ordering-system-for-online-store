@@ -1,4 +1,4 @@
-package com.example.order.service.domain.entity;
+package com.example.client.service.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,19 +9,19 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "orders")
-public class Order {
+@Table(name = "client_orders")
+public class ClientOrders {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "client_id")
     private Long clientId;
-    @Column(name = "description")
-    private String description;
-    @Column(name="order_status",
-            nullable = false)
-    @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    @Column(name = "order_id")
+    private Long orderId;
 
+    public ClientOrders(Long clientId, Long orderId) {
+        this.clientId = clientId;
+        this.orderId = orderId;
+    }
 }

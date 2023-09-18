@@ -3,6 +3,7 @@ package com.example.order.service.web.controller;
 import com.example.order.service.service.OrderService;
 import com.example.order.service.service.convertor.OrderMapper;
 import com.example.order.service.service.dto.OrderDto;
+import com.example.order.service.service.messaging.producer.Producer;
 import com.example.order.service.web.dto.request.OrderRequest;
 import com.example.order.service.web.dto.response.OrderResponse;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
+    private final Producer producer;
     private final OrderMapper orderMapper;
 
 
@@ -30,8 +32,12 @@ public class OrderController {
     public OrderDto save(
             @Valid @RequestBody OrderRequest orderRequest) {
         log.info("Save order {}", orderRequest);
-        return orderService.save(
+        var order = orderService.save(
                 orderMapper.requestToDto(orderRequest));
+
+        log.info("Send order {}", orderRequest);
+        producer.sendEventOrderSave(order);
+        return order;
     }
 
 

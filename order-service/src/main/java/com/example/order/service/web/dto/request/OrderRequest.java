@@ -1,6 +1,7 @@
 package com.example.order.service.web.dto.request;
 
 import com.example.order.service.domain.entity.OrderStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,9 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-
-    private String clientId;
+    @NotNull
+    private Long clientId;
+    @NotNull
     private String description;
+    @NotNull
     private OrderStatus orderStatus;
 
 }

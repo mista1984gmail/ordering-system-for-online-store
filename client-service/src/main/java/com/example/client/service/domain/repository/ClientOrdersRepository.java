@@ -1,10 +1,9 @@
 package com.example.client.service.domain.repository;
 
-import com.example.client.service.domain.entity.Client;
+import com.example.client.service.domain.entity.ClientOrders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Long> {
-    boolean existsById(Long id);
+public interface ClientOrdersRepository extends JpaRepository<ClientOrders, Long> {
 }

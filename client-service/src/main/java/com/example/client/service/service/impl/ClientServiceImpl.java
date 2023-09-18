@@ -60,6 +60,12 @@ public class ClientServiceImpl implements ClientService {
         .get();
   }
 
+  @Override
+  public boolean isExistClient(Long id) {
+    log.info("Checking exist client");
+    return clientRepository.existsById(id);
+  }
+
 
   private Client getById(Long id) {
     return clientRepository.findById(id)
