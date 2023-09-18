@@ -1,7 +1,5 @@
 package com.example.client.service.service.messaging.service;
 
-import com.example.client.service.domain.entity.ClientOrders;
-import com.example.client.service.service.ClientOrdersService;
 import com.example.client.service.service.ClientService;
 import com.example.client.service.service.dto.ClientDto;
 import com.example.client.service.service.messaging.event.OrderSendEvent;
@@ -19,7 +17,6 @@ public class KafkaMessagingService {
     private static final String topicEventSaveOrder = "${topic.send-order-to-client}";
     private static final String kafkaConsumerGroupId = "${spring.kafka.consumer.group-id}";
     private final ClientService clientService;
-    private final ClientOrdersService clientOrdersService;
 
     @Transactional
     @KafkaListener(topics = topicEventSaveOrder, groupId = kafkaConsumerGroupId, properties = {"spring.json.value.default.type=com.example.client.service.service.messaging.event.OrderSendEvent"})
@@ -28,6 +25,5 @@ public class KafkaMessagingService {
         if (!clientService.isExistClient(orderSendEvent.getClientId())){
             clientService.save(new ClientDto(orderSendEvent.getClientId(), null, null, null, null, null));
         }
-            clientOrdersService.save(new ClientOrders(orderSendEvent.getClientId(), orderSendEvent.getOrderId()));
     }
 }

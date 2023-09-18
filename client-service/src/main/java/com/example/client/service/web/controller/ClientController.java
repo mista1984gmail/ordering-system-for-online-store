@@ -63,7 +63,7 @@ public class ClientController {
   @ResponseStatus(HttpStatus.OK)
   public ClientDto update(
       @Valid @RequestBody ClientRequest clientRequest,
-      @PathVariable @NotNull @Positive Integer id) {
+      @PathVariable @NotNull @Positive Long id) {
     log.info("Update client: {}", id);
     return clientService.update(
         clientMapper.requestToDto(id, clientRequest));

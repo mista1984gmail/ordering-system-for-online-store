@@ -20,7 +20,7 @@ public interface OrderMapper {
     void updateEntityToModel(@MappingTarget Order target, OrderDto source);
 
     @Mapping(target = "id", source = "id")
-    OrderDto requestToDto(Integer id, OrderRequest orderRequest);
+    OrderDto requestToDto(Long id, OrderRequest orderRequest);
 
     OrderDto requestToDto(OrderRequest orderRequest);
 

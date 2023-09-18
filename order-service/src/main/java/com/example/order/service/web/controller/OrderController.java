@@ -15,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Validated
 @RestController
@@ -26,6 +29,16 @@ public class OrderController {
     private final Producer producer;
     private final OrderMapper orderMapper;
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<OrderResponse> findAll(
+            @RequestParam(value = "status", required = false) String status
+    ) {
+        log.info("Find all clients");
+        return orderService.findAllOrders(status).stream()
+                .map(orderMapper::dtoToResponse)
+                .collect(Collectors.toList());
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
@@ -53,10 +66,18 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     public OrderDto update(
             @Valid @RequestBody OrderRequest orderRequest,
-            @PathVariable @NotNull @Positive Integer id) {
+            @PathVariable @NotNull @Positive Long id) {
         log.info("Update order: {}", id);
         return orderService.update(
                 orderMapper.requestToDto(id, orderRequest));
+    }
+    @PutMapping("/{id}/{status}")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderDto updateStatus(
+            @PathVariable @NotNull @Positive Long id,
+            @PathVariable @NotNull String status) {
+        log.info("Update order: {} with new status {}", id, status);
+        return orderService.updateStatus(id, status);
     }
 
 }

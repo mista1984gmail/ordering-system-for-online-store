@@ -1,6 +1,7 @@
 package com.example.order.service.service.impl;
 
 import com.example.order.service.domain.entity.Order;
+import com.example.order.service.domain.entity.OrderStatus;
 import com.example.order.service.domain.repository.OrderRepository;
 import com.example.order.service.exception.EntityNotFoundException;
 import com.example.order.service.service.OrderService;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -46,6 +48,25 @@ public class OrderServiceImpl implements OrderService {
         var foundType = getById(orderDto.getId());
         orderMapper.updateEntityToModel(foundType, orderDto);
         return orderMapper.modelToDto(orderRepository.save(foundType));
+    }
+
+    @Override
+    @Transactional
+    public OrderDto updateStatus(Long id, String status) {
+        var foundType = getById(id);
+        foundType.setOrderStatus(OrderStatus.valueOf(status));
+        return orderMapper.modelToDto(orderRepository.save(foundType));
+    }
+
+    @Override
+    public List<OrderDto> findAllOrders(String status) {
+        log.debug("Find all orders");
+        if(status==null){
+            return orderMapper.toListDto(orderRepository.findAll());
+        }
+        else {
+           return  orderMapper.toListDto(orderRepository.findByOrderStatus(OrderStatus.valueOf(status)));
+        }
     }
 
     private Order getById(Long id) {

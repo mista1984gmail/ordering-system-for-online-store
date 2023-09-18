@@ -1,7 +1,8 @@
 package com.example.client.service.service;
 
-import com.example.client.service.domain.entity.ClientOrders;
+import com.example.client.service.domain.util.ClientUtil;
 
 public interface ClientOrdersService {
-    void save(ClientOrders clientOrders);
+
+    ClientUtil getAllOrdersByClientIdAndStatus(Long id, String status);
 }
