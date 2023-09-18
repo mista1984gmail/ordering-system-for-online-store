@@ -19,14 +19,14 @@ public interface ClientMapper {
     @Mapping(target = "id", ignore = true)
     void updateEntityToModel(@MappingTarget Client target, ClientDto source);
     @Mapping(target = "id", source = "id")
-    ClientDto requestToDto(Integer id, ClientRequest rentalEquipmentTypeRequest);
+    ClientDto requestToDto(Integer id, ClientRequest clientRequest);
 
-    ClientDto requestToDto(ClientRequest rentalEquipmentTypeRequest);
+    ClientDto requestToDto(ClientRequest clientRequest);
 
     ClientResponse dtoToResponse(ClientDto clientDto);
 
     List<ClientResponse> toListResponse(
-            List<ClientDto> rentalEquipmentTypes);
+            List<ClientDto> clients);
 
 
 }
