@@ -16,6 +16,7 @@ services:
       - SERVER_PORT= 8082
       - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
       - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/online_store_database
+      - RESTTEMPLATE_ORDER_SERVICE_APIHOST=http://order-service:8083
 
   order-service:
     image: order-service:0.0.1

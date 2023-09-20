@@ -12,4 +12,6 @@ public interface OrderService {
     OrderDto updateStatus(Long id, String status);
 
     List<OrderDto> findAllOrders(String status);
+
+    OrderDto updateClientId(Long orderId, Long clientId);
 }

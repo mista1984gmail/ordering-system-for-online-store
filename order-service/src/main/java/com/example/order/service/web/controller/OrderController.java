@@ -80,4 +80,13 @@ public class OrderController {
         return orderService.updateStatus(id, status);
     }
 
+    @PutMapping("/update-client-id/{orderId}/{clientId}")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderDto updateClientId(
+            @PathVariable @NotNull @Positive Long orderId,
+            @PathVariable @NotNull @Positive Long clientId) {
+        log.info("Update order: {} with new client id {}", orderId, clientId);
+        return orderService.updateClientId(orderId, clientId);
+    }
+
 }

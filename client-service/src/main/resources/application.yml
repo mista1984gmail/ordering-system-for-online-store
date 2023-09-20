@@ -39,3 +39,9 @@ spring:
 
 topic:
   send-order-to-client: send-order
+
+
+resttemplate:
+  order:
+    service:
+      apihost: http://localhost:8083

@@ -70,6 +70,15 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    @Transactional
+    public OrderDto updateClientId(Long orderId, Long clientId) {
+        log.debug("Update order with id : {} new client id {}", orderId, clientId);
+        var foundType = getById(orderId);
+        foundType.setClientId(clientId);
+        return orderMapper.modelToDto(orderRepository.save(foundType));
+    }
+
     private Order getById(Long id) {
         return orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
