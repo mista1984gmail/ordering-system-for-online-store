@@ -1,11 +1,47 @@
 version: '3.8'
 services:
+  client-service:
+    image: client-service:0.0.1
+    build:
+      context: .
+      dockerfile: client-service/Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      service-db:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT= 8082
+      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/online_store_database
+
+  order-service:
+    image: order-service:0.0.1
+    build:
+      context: .
+      dockerfile: order-service/Dockerfile
+    ports:
+      - "8083:8083"
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      - SERVER_PORT= 8083
+      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://service-db/online_store_database
 
   service-db:
     image: postgres:14.7-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "online_store_database" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
     ports:
       - "15432:5432"
     volumes:
