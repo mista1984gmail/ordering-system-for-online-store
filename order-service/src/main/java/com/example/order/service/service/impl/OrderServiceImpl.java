@@ -53,6 +53,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDto updateStatus(Long id, String status) {
+        log.debug("Update order with id : {} new status {}", id, status);
         var foundType = getById(id);
         foundType.setOrderStatus(OrderStatus.valueOf(status));
         return orderMapper.modelToDto(orderRepository.save(foundType));
